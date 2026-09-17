@@ -7,7 +7,7 @@ edition = "2024"
 name = "neko_tech_localstorage"
 
 [dependencies]
-neko-tech-persistence = { path = "../neko-tech-persistence/neko-tech-persistence" }
+neko-tech-persistence = { path = "../neko-tech-persistence/" }
 
 [dev-dependencies]
 serde = { version = "1", features = ["derive"] }

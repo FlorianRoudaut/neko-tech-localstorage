@@ -1,16 +1,15 @@
 use std::fs;
 use std::path::{Path, PathBuf};
-use neko_tech_persistence::{Key, PersistenceError, Repository};
-use crate::ProtoPersisted;
+use neko_tech_persistence::{Key, PersistenceError, Persisted, Repository};
 
-pub struct LocalFileRepository<T: ProtoPersisted> {
+pub struct LocalFileRepository<T: Persisted> {
     items: Vec<T>,
     file_path: PathBuf,
 }
 
-impl<T: ProtoPersisted> LocalFileRepository<T> {
+impl<T: Persisted> LocalFileRepository<T> {
     pub fn load(dir: &Path) -> Result<Self, PersistenceError> {
-        let file_path = dir.join(T::collection_filename());
+        let file_path = dir.join(T::persisted_type());
         let items = if file_path.exists() {
             let bytes = fs::read(&file_path)
                 .map_err(|e| PersistenceError::StorageError(e.to_string()))?;
@@ -28,7 +27,7 @@ impl<T: ProtoPersisted> LocalFileRepository<T> {
     }
 }
 
-impl<T: ProtoPersisted> Repository<T> for LocalFileRepository<T> {
+impl<T: Persisted> Repository<T> for LocalFileRepository<T> {
     fn create(&mut self, item: T) -> Result<(), PersistenceError> {
         let id = item.key().id;
         if self.items.iter().any(|i| i.key().id == id) {

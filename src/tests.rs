@@ -1,7 +1,7 @@
 use neko_tech_persistence::{Key, PersistenceError, Persisted, Repository};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use crate::{LocalFileRepository, ProtoPersisted};
+use crate::{LocalFileRepository};
 
 #[derive(Serialize, Deserialize)]
 struct TestItem {
@@ -11,12 +11,7 @@ struct TestItem {
 
 impl Persisted for TestItem {
     fn key(&self) -> &Key { &self.key }
-    fn persisted_type(&self) -> &str { "TestItem" }
-}
-
-impl ProtoPersisted for TestItem {
-    fn collection_filename() -> &'static str { "test_items.bin" }
-
+    fn persisted_type() -> &'static str { "TestItem" }
     fn to_proto_bytes(items: &[Self]) -> Vec<u8> {
         serde_json::to_vec(items).unwrap()
     }
