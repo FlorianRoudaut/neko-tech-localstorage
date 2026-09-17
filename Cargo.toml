@@ -7,6 +7,9 @@ edition = "2024"
 name = "neko_tech_localstorage"
 
 [dependencies]
+neko-tech-persistence = { git = "https://github.com/FlorianRoudaut/neko-tech-persistence.git", branch = "main" }
+
+[patch."https://github.com/FlorianRoudaut/neko-tech-persistence.git"]
 neko-tech-persistence = { path = "../neko-tech-persistence/" }
 
 [dev-dependencies]
